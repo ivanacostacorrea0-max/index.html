@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog da Prettyivanaa - Contos de Vampiros</title>
+    <style>
+        :root {
+            --bg-color: #0b090a;
+            --container-bg: #161518;
+            --primary-color: #9e2a2b;
+            --accent-color: #e5383b;
+            --text-color: #d3d3d3;
+            --title-color: #f8f9fa;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Georgia', serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(rgba(0,0,0,0.85), rgba(11,9,10,1)), url('https://images.unsplash.com/photo-1508185159346-bb1c5e933333?q=80&w=1600&auto=format&fit=crop') no-repeat center center/cover;
+            text-align: center;
+            padding: 60px 20px;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        header h1 {
+            color: var(--title-color);
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.9);
+            letter-spacing: 2px;
+        }
+
+        header p {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-top: 10px;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            background-color: #110f12;
+            padding: 15px;
+            border-bottom: 1px solid #2b2d42;
+            gap: 20px;
+        }
+
+        .nav-btn {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--primary-color);
+            padding: 8px 20px;
+            cursor: pointer;
+            font-family: inherit;
+            border-radius: 4px;
+            transition: all 0.3s;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .section-view {
+            display: none;
+        }
+
+        .section-view.active {
+            display: block;
+        }
+
+        /* Estilo do Painel da Autora */
+        .author-panel {
+            background-color: var(--container-bg);
+            border: 1px solid #2b2d42;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .author-panel h2 {
+            color: var(--title-color);
+            margin-top: 0;
+            border-bottom: 1px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--accent-color);
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            background-color: #0b090a;
+            border: 1px solid #3a383f;
+            color: var(--text-color);
+            border-radius: 4px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: background 0.3s;
+        }
+
+        .btn-submit:hover {
+            background-color: var(--accent-color);
+        }
+
+        /* Estilo dos Contos */
+        .post {
+            background-color: var(--container-bg);
+            border: 1px solid #2b2d42;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .post h2 {
+            color: var(--title-color);
+            font-size: 2rem;
+            margin-top: 0;
+            border-bottom: 1px solid var(--primary-color);
+            padding-bottom: 10px;
+        }
+
+        .post-date {
+            font-size: 0.85rem;
+            color: #8d99ae;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .post-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 6px;
+            margin: 15px 0;
+            border: 1px solid #333;
+        }
+
+        .post-content {
+            text-align: justify;
+            margin-bottom: 30px;
+            white-space: pre-line;
+        }
+
+        /* Comentários / Resenhas */
+        .comments-section {
+            border-top: 1px dashed #3a383f;
+            padding-top: 20px;
+            margin-top: 20px;
+        }
+
+        .comments-section h3 {
+            color: var(--title-color);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+
+        .comment-form input, .comment-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #0b090a;
+            border: 1px solid #3a383f;
+            color: var(--text-color);
+            border-radius: 4px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .comment-form textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .comment-item {
+            background-color: #110f12;
+            border-left: 3px solid var(--primary-color);
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 0 4px 4px 0;
+            font-size: 0.95rem;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 4px;
+        }
+
+        .error-msg {
+            color: #ff4d4d;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #050405;
+            color: #555;
+            font-size: 0.9rem;
+            border-top: 1px solid #1a181c;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Blog da Prettyivanaa</h1>
+        <p>Contos de Vampiros e Mistérios da Noite</p>
+    </header>
+
+    <div class="nav-tabs">
+        <button class="nav-btn active" onclick="mudarAba('ler')">📖 Ler Contos</button>
+        <button class="nav-btn" onclick="mudarAba('autora')">✍️ Painel da Autora (Postar)</button>
+    </div>
+
+    <div class="container">
+
+        <!-- ABA 1: LEITURA DOS CONTOS -->
+        <div id="view-ler" class="section-view active">
+            <div id="posts-container">
+                <!-- Os contos aparecem aqui dinamicamente -->
+            </div>
+        </div>
+
+        <!-- ABA 2: PAINEL DA AUTORA -->
+        <div id="view-autora" class="section-view">
+            <div class="author-panel">
+                <h2>Painel da Autora</h2>
+                <p style="color: #8d99ae; font-size: 0.9rem; margin-bottom: 20px;">Adicione um novo conto de vampiro com foto ao seu blog.</p>
+                
+                <div class="form-group">
+                    <label>Título do Conto:</label>
+                    <input type="text" id="novo-titulo" placeholder="Ex: O Castelo nas Sombras">
+                </div>
+                <div class="form-group">
+                    <label>Data:</label>
+                    <input type="text" id="nova-data" placeholder="Ex: 04 de Setembro de 2026">
+                </div>
+                <div class="form-group">
+                    <label>Link da Foto (URL):</label>
+                    <input type="text" id="nova-foto" placeholder="Cole o link direto da imagem aqui">
+                </div>
+                <div class="form-group">
+                    <label>Texto do Conto:</label>
+                    <textarea id="novo-texto" placeholder="Escreva a história aqui..."></textarea>
+                </div>
+                <button class="btn-submit" onclick="adicionarConto()">Publicar Conto</button>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Blog da Prettyivanaa. Todos os direitos reservados nas sombras.</p>
+    </footer>
+
+    <script>
+        // Lista inicial de contos salvos
+        let contos = [
+            {
+                id: 1,
+                titulo: "O Beijo da Meia-Noite",
+                data: "04 de Setembro de 2026",
+                foto: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=800&auto=format&fit=crop",
+                texto: "A neblina cobria as ruas de paralelepípedos de uma antiga cidade esquecida pelo tempo. Lorde Alistair observava a janela do alto da torre do castelo, sentindo o chamado do sangue na calada da noite...",
+                comentarios: [
+                    { nome: "Leitor Noturno", texto: "Que atmosfera incrível e sombria!" }
+                ]
+            }
+        ];
+
+        function mudarAba(aba) {
+            document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+
+            if (aba === 'ler') {
+                document.getElementById('view-ler').classList.add('active');
+                document.querySelectorAll('.nav-btn')[0].classList.add('active');
+                renderizarContos();
+            } else {
+                document.getElementById('view-autora').classList.add('active');
+                document.querySelectorAll('.nav-btn')[1].classList.add('active');
+            }
+        }
+
+        function renderizarContos() {
+            const container = document.getElementById('posts-container');
+            container.innerHTML = "";
+
+            if (contos.length === 0) {
+                container.innerHTML = "<p style='text-align: center; color: #666;'>Ainda não há contos publicados.</p>";
+                return;
+            }
+
+            contos.forEach((conto) => {
+                let comentariosHTML = "";
+                if (conto.comentarios && conto.comentarios.length > 0) {
+                    conto.comentarios.slice().reverse().forEach(c => {
+                        comentariosHTML += `
+                            <div class="comment-item">
+                                <div class="comment-author">${escapeHTML(c.nome)}</div>
+                                <div>${escapeHTML(c.texto)}</div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    comentariosHTML = "<p style='color: #666; font-size: 0.9rem;'>Ainda não há resenhas. Seja o primeiro a comentar!</p>";
+                }
+
+                const postDiv = document.createElement('div');
+                postDiv.classList.add('post');
+                postDiv.innerHTML = `
+                    <h2>${escapeHTML(conto.titulo)}</h2>
+                    <div class="post-date">Postado em ${escapeHTML(conto.data)}</div>
+                    ${conto.foto ? `<img src="${escapeHTML(conto.foto)}" alt="Ilustração do Conto" class="post-img">` : ''}
+                    <div class="post-content">${escapeHTML(conto.texto)}</div>
+
+                    <div class="comments-section">
+                        <h3>Resenhas dos Leitores</h3>
+                        <div class="comment-form">
+                            <div class="error-msg" id="error-${conto.id}">Aviso: Não é permitido incluir links nas resenhas!</div>
+                            <input type="text" placeholder="Seu Nome" id="name-${conto.id}">
+                            <textarea placeholder="Escreva o que achou da história..." id="text-${conto.id}"></textarea>
+                            <button class="btn-submit" style="padding: 8px 15px; font-size: 0.9rem;" onclick="adicionarComentario(${conto.id})">Enviar Resenha</button>
+                        </div>
+                        <div style="margin-top: 15px;">
+                            ${comentariosHTML}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(postDiv);
+            });
+        }
+
+        function adicionarConto() {
+            const titulo = document.getElementById('novo-titulo').value.trim();
+            const data = document.getElementById('nova-data').value.trim();
+            const foto = document.getElementById('nova-foto').value.trim();
+            const texto = document.getElementById('novo-texto').value.trim();
+
+            if (!titulo || !texto) {
+                alert("Por favor, preencha pelo menos o Título e o Texto do conto.");
+                return;
+            }
+
+            const novoId = contos.length > 0 ? contos[0].id + 1 : 1;
+            contos.unshift({
+                id: novoId,
+                titulo: titulo,
+                data: data || "Hoje",
+                foto: foto || "https://images.unsplash.com/photo-1508185159346-bb1c5e933333?q=80&w=800&auto=format&fit=crop",
+                texto: texto,
+                comentarios: []
+            });
+
+            // Limpa os campos
+            document.getElementById('novo-titulo').value = "";
+            document.getElementById('nova-data').value = "";
+            document.getElementById('nova-foto').value = "";
+            document.getElementById('novo-texto').value = "";
+
+            alert("Conto publicado com sucesso nas sombras!");
+            mudarAba('ler');
+        }
+
+        function adicionarComentario(contoId) {
+            const nomeInput = document.getElementById(`name-${contoId}`);
+            const textoInput = document.getElementById(`text-${contoId}`);
+            const erroDiv = document.getElementById(`error-${contoId}`);
+
+            const nome = nomeInput.value.trim();
+            const texto = textoInput.value.trim();
+
+            if (!nome || !texto) {
+                alert("Por favor, preencha o seu nome e a resenha.");
+                return;
+            }
+
+            // Validação rigorosa para bloquear links
+            const contemLink = /http|https|www|\.com|\.com\.br|\.net|\.org|\.io|ftp:\/\/|:\/\//i.test(texto);
+
+            if (contemLink) {
+                erroDiv.style.display = "block";
+                return;
+            } else {
+                erroDiv.style.display = "none";
+            }
+
+            const conto = contos.find(c => c.id === contoId);
+            if (conto) {
+                conto.comentarios.push({ nome: nome, texto: texto });
+                renderizarContos();
+            }
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+
+        // Carrega os contos ao abrir a página
+        renderizarContos();
+    </script>
+</body>
+</html>
